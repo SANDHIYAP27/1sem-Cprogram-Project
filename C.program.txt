@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100
+
+struct Book
+{
+    int id;
+    char title[60];
+    char author[40];
+    int status;
+};
+
+struct Book books[MAX];
+int count = 0;
+
+void addBook()
+{
+    printf("Enter Book ID: ");
+    scanf("%d",&books[count].id);
+    getchar();
+
+    printf("Enter Book Title: ");
+    fgets(books[count].title,60,stdin);
+
+    printf("Enter Author Name: ");
+    fgets(books[count].author,40,stdin);
+
+    books[count].status = 0;
+    count++;
+
+    printf("Book added successfully\n");
+}
+
+void issueBook()
+{
+    int id;
+    printf("Enter Book ID to issue: ");
+    scanf("%d",&id);
+
+    for(int i=0;i<count;i++)
+    {
+        if(books[i].id==id)
+        {
+            books[i].status=1;
+            printf("Book issued successfully\n");
+            return;
+        }
+    }
+
+    printf("Book not found\n");
+}
+
+void returnBook()
+{
+    int id;
+    printf("Enter Book ID to return: ");
+    scanf("%d",&id);
+
+    for(int i=0;i<count;i++)
+    {
+        if(books[i].id==id)
+        {
+            books[i].status=0;
+            printf("Book returned successfully\n");
+            return;
+        }
+    }
+
+    printf("Book not found\n");
+}
+
+void listBooks()
+{
+    printf("\nID\tTitle\tAuthor\tStatus\n");
+
+    for(int i=0;i<count;i++)
+    {
+        printf("%d\t%s\t%s\t%s\n",
+        books[i].id,
+        books[i].title,
+        books[i].author,
+        books[i].status==0?"Available":"Issued");
+    }
+}
+
+int main()
+{
+    int choice;
+
+    while(1)
+    {
+        printf("\n--- MINI LIBRARY CATALOG ---\n");
+        printf("1.Add Book\n");
+        printf("2.Issue Book\n");
+        printf("3.Return Book\n");
+        printf("4.List Books\n");
+        printf("5.Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
+        {
+            case 1: addBook(); break;
+            case 2: issueBook(); break;
+            case 3: returnBook(); break;
+            case 4: listBooks(); break;
+            case 5: return 0;
+            default: printf("Invalid choice\n");
+        }
+    }
+} 
